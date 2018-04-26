@@ -222,3 +222,212 @@ func main() {
 
 Range returns the the index and the value of the array.
 
+## Slices
+
+Slices wrap arrays in Go, and provide a more general, powerful, and convenient interface to data sequences.
+
+* Similar to Arrays
+* Fixed type
+* Dynamically sized
+* Flexible
+
+Unless you know that your list will contain a finite and fixed set of elements, you'll almost always use a slice when dealing with data.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// create an array of names
+	namesArray := [4]string{"John", "Paul", "George", "Ringo"}
+	// create a slice of names
+	namesSlice := []string{"John", "Paul", "George", "Ringo"}
+
+	fmt.Println(namesArray)
+	fmt.Println(namesSlice)
+}
+```
+
+Think of a slice as having three members:
+
+* Length
+* Capacity
+* Pointer to the underlying array
+
+```go
+type slice struct {
+	Length   int
+	Capacity int
+	Array    [10]array
+}
+```
+
+### Appeding to slices
+
+The `append` keyword allows us to add elements to a slice.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	names := []string{}
+	names = append(names, "John")
+
+	// Append multiple items at once
+	names = append(names, "Sally", "George")
+
+	// Append an entire slice to another slice
+	moreNames := []string{"Bill", "Ginger", "Wilma"}
+	names = append(names, moreNames...)
+
+	fmt.Println(names)
+}
+```
+
+## Len & Cap
+
+* The `len` keyword tells us how many elements the slice actually has.
+
+* The `cap` keyword tells us the capacity of the slice, or how many elements it can have.
+
+```go
+names := []string{}
+fmt.Println("len:", len(names)) // 0
+fmt.Println("cap:", cap(names)) // 0
+
+names = append(names, "John")
+fmt.Println("len:", len(names)) // 1
+fmt.Println("cap:", cap(names)) // 1
+
+names = append(names, "Paul")
+fmt.Println("len:", len(names)) // 2
+fmt.Println("cap:", cap(names)) // 2
+
+names = append(names, "George")
+fmt.Println("len:", len(names)) // 3
+fmt.Println("cap:", cap(names)) // 4
+
+names = append(names, "Ringo")
+fmt.Println("len:", len(names)) // 4
+fmt.Println("cap:", cap(names)) // 4
+
+names = append(names, "Stu")
+fmt.Println("len:", len(names)) // 5
+fmt.Println("cap:", cap(names)) // 8
+```
+
+### Making a slice
+
+Slices can also be created using the `make` keyword which allows us to define the starting "length" of the slice, and optionally, the starting "capacity" of the slice.
+
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	a := make([]int, 1, 3)
+
+	fmt.Println(a)      // [0]
+	fmt.Println(len(a)) // 1
+	fmt.Println(cap(a)) // 3
+}
+```
+
+### 2-D Slices
+
+* Go's slices are one-dimensional. To create an equivalent of a 2D slice, it is necessary to define an slice-of-slices.
+
+* Because slices are variable-length, it is possible to have each inner slice be a different length.
+
+```go
+// a slice of byte slices
+type Modules [][]byte
+
+course := Modules{
+	[]byte("Chapter One: Syntax"),
+	[]byte("Chapter Two: Arrays and Slices"),
+	[]byte("Chapter Three: Maps"),
+}
+```
+
+### Slice Subsets
+
+Subsets of a slice (or a slice of a slice) allow us to work with just section of a slice.
+
+```go
+package main
+
+import "fmt"
+
+// slice[starting_index : (starting_index + length)]
+
+func main() {
+	names := []string{"John", "Paul", "George", "Ringo"}
+
+	fmt.Println(names)      // [John Paul George Ringo]
+	fmt.Println(names[1:3]) // [Paul George] - names[1:1+2]
+
+	// functionally equivalent
+	fmt.Println(names[2:])           // [George Ringo]
+	fmt.Println(names[2:len(names)]) // [George Ringo]
+
+	// functionally equivalent
+	fmt.Println(names[:2])  // [John Paul]
+	fmt.Println(names[0:2]) // [John Paul]
+}
+```
+
+### Mutating Slice Subsets
+
+```go
+names := []string{"John", "Paul", "George", "Ringo"}
+
+fmt.Println(names) // [John Paul George Ringo]
+
+guitars := names[:3]
+
+fmt.Println(guitars) // [John Paul George]
+
+for i, g := range guitars {
+	guitars[i] = strings.ToUpper(g)
+}
+
+fmt.Println(names) // [JOHN PAUL GEORGE Ringo]
+```
+
+Let's not do this!
+
+### Using `copy` to not mutate data
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	veggies := []string{"carrot", "potato", "cucumber", "onion"}
+	v := veggies
+
+	v2 := make([]string, len(veggies))
+	copy(v2, veggies)
+
+	v[0] = "zuchinni"
+
+	fmt.Println(veggies)
+	fmt.Println(v)
+	fmt.Println(v2)
+}
+```
+
+```go
+// copy(source, destination)
+```
+
+[more slice tricks + tips](https://github.com/golang/go/wiki/SliceTricks)
+
+## Maps
