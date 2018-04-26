@@ -431,3 +431,126 @@ func main() {
 [more slice tricks + tips](https://github.com/golang/go/wiki/SliceTricks)
 
 ## Maps
+
+An unordered set of values indexed by a unique key
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	beatles := map[string]string{}
+
+	beatles["John"] = "guitar"
+	beatles["Paul"] = "bass"
+	beatles["George"] = "guitar"
+	beatles["Ringo"] = "drums"
+
+	fmt.Println(beatles)
+}
+
+// Prints:
+// map[Ringo:drums John:guitar Paul:bass George:guitar]
+```
+
+### Initializing Maps
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	beatles := map[string]string{
+		"John":   "guitar",
+		"Paul":   "bass",
+		"George": "guitar",
+		"Ringo":  "drums",
+	}
+
+	fmt.Println(beatles)
+}
+```
+
+The len function can be used to find the length (the number of keys) in the map.
+
+`fmt.Println(len(beatles))`
+
+### Deleting Map Keys
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	beatles := map[string]string{
+		"John":   "guitar",
+		"Paul":   "bass",
+		"George": "guitar",
+		"Ringo":  "drums",
+	}
+
+	delete(beatles, "John")
+
+	fmt.Println(beatles)
+	// map[Paul:bass George:guitar Ringo:drums]
+}
+```
+
+### Map Values
+
+Map values can be set and retrieved using the the [] syntax.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	beatles := map[string]string{}
+
+	beatles["Paul"] = "bass"
+
+	paul := beatles["Paul"]
+	fmt.Println(paul) // bass
+}
+```
+
+Maps in Go return an optional second argument that will tell you if the key exists in the map.
+
+```go
+if paul, ok := beatles["Paul"]; ok {
+	fmt.Println(paul) // bass
+}
+
+// If the value is paul, and ok equals Paul, do this
+```
+
+### Getting Map Keys
+
+Go does not provide a way to get just a list of keys, or values, from a map. To do this you must build that list yourself.
+
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	m := map[string]string{}
+	m["foo"] = "bar"
+	m["bin"] = "baz"
+	m["boo"] = "woo"
+
+	keys := make([]string, len(m))
+
+	var i int
+	for k := range m {
+		keys[i] = k
+		i++
+	}
+	fmt.Printf("%+v", keys)
+}
+```
