@@ -97,3 +97,128 @@ u := User{Email: "marge@example.com"}
 u.Name = "Marge Simpson"
 ```
 
+## Arrays and Iteration
+
+* Fixed length
+* Fixed type
+* Zero based
+
+The capacity of an array is defined at creation time. Once an array is allocated it's size can no longer be changed.
+
+### Defining an array
+
+```go
+names := [4]string{}
+names[0] = "John"
+names[1] = "Paul"
+names[2] = "George"
+names[3] = "Ringo"
+```
+
+### Initializing an array
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	names := [4]string{"John", "Paul", "George", "Ringo"}
+
+	fmt.Println(names)
+}
+```
+
+## Array Type
+The length is actually part of the type that is defined for arrays.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	a1 := [2]string{"one", "two"}
+	a2 := [2]string{}
+
+	a2 = a1
+
+	fmt.Println(a2)
+	a3 := [3]string{}
+
+	// This can't be done, as it is not of the same type
+	//a3 = a2
+
+	fmt.Println(a3)
+}
+```
+## 2-D Arrays (Matrix)
+
+Go's arrays are one-dimensional. To create an equivalent of a 2D array, it is necessary to define an array-of-arrays.
+
+
+
+```go
+type Matrix [3][3]int
+
+func main() {
+	m := Matrix{
+		{0, 0, 0},
+		{1, 1, 1},
+		{2, 2, 3},
+    }
+```
+
+### The `for` Loop
+Go only has one loop! Use it for `for`, `while`, `do while`, `do until`, etc...
+
+```go
+for i := 0; i < N; i++ {
+  // do work until i equals N
+}
+```
+
+```go
+for {
+  // loop forever
+}
+```
+
+### Iterating over arrays with `len`
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	names := [4]string{"John", "Paul", "George", "Ringo"}
+
+	for i := 0; i < len(names); i++ {
+		fmt.Println(names[i])
+	}
+}
+```
+
+**NOTE:** Explicit array length MUST be declared, it cannot infer any type data.
+
+### `range` Keyword
+
+Looping over arrays, and other collection types, is so common that Go created the range tool to simplify this code.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	names := [4]string{"John", "Paul", "George", "Ringo"}
+
+	for i, n := range names {
+		fmt.Printf("%d - %s\n", i, n)
+	}
+}
+```
+
+Range returns the the index and the value of the array.
+
