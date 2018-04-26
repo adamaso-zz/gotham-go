@@ -554,3 +554,108 @@ func main() {
 	fmt.Printf("%+v", keys)
 }
 ```
+
+## Pointers
+
+A pointer is a type that holds the address that points to a variables value.
+
+### How does Go pass data (default)
+```go
+package main
+
+import "fmt"
+
+type Beatle struct {
+	Name string
+}
+
+func main() {
+	b := Beatle{Name: "Ringo"}
+	changeBeatleName(b)
+	fmt.Println(b.Name) // Ringo
+}
+
+func changeBeatleName(b Beatle) {
+	b.Name = "George"
+	fmt.Println(b.Name) // George
+}
+```
+The changeBeatleName function is receiving a copy of the Beatle value.
+
+```go
+func changeBeatleName(b Beatle) {
+	b.Name = "George"
+	fmt.Println(b.Name) // George
+}
+```
+ 
+It can not modify the original value.
+
+### Pointer Syntax
+
+Pointers allow us to point at the original memory space of a value.
+
+To indicate we are expecting a pointer, we use the * modifier:
+
+`func changeBeatleName(b *Beatle) {}`
+
+To get the address of a value we use the & modifier:
+
+`&Beatle{}`
+
+And we can store pointers too:
+
+`b := &Beatle{}`
+
+### When to use pointers?
+
+Use pointers if:
+
+* You want others to be able to modify your values or
+* You have a large (memory) value that you don't want to keep copying
+
+
+## Interfaces
+
+* Interfaces allow us to specify behavior. They are about doing, not being.
+
+* Unlike other languages interfaces in Go are implicitly not explicitly defined.
+
+* Interfaces are found all around the standard library.
+
+### Concrete Types Vs. Interfaces
+
+Imagine you own a venue, such as a night club. You want to have music at the venue. Do you require that the entertainer be a Beatle or would any musician do?
+
+That is the difference between a concrete type and an interface.
+
+A Beatle is a concrete type. You are either a Beatle or you are not. There are only two people alive that can fulfill that requirement.
+
+A musician, however, is anyone who can play an instrument.
+
+### Defining an Interface
+
+Interfaces are created by defining an interface type that has a list of N methods that must be satisfied to implement that interface.
+
+```go
+type Writer interface {
+	Write(p []byte) (int, error)
+}
+```
+
+It is important to note that interfaces are a collection of methods, not fields.
+
+```go
+// good
+type Writer interface {
+	Write(p []byte) (int, error)
+}
+
+// bad
+type Emailer interface {
+	Email string
+}
+```
+
+> The io.Writer interface in the standard library requires the implementation of a Write method that matches the signature of Write(p []byte) (n int, err error).
+
