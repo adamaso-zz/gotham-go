@@ -16,15 +16,15 @@ type Movie struct {
 
 func main() {
 	// declare a variable called "movie" of type "Movie"
+	var movie Movie;
+
 	// Set the Title to "Wizard of Oz"
 	// Set the Released variable to "true"
 	// Set Length to 125
 
-	movie := Movie {
-		Title: "Wizard of Oz",
-		Released: true,
-		Length: 125,
-	}
+	movie.Title = "Wizard of Oz"
+	movie.Released = true
+	movie.Length = 125
 
 	// Print the value of "movie" out
 	// hint: you can use fmt.Println(movie)

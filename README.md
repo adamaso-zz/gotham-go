@@ -1,14 +1,9 @@
 # GothamGo 2018 Notes
 
-**GOROOT** - where go is set up
-**GOPATH** - where projects live
-
 [Link to Course](https://www.gopherguides.com/)
 
 * More limitations with Go = Simpler
 * Easy to read
-
----
 
 ## Syntax and Types
 
