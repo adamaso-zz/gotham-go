@@ -86,3 +86,34 @@ gophercises.com
 * No Contructors
 * Exceptions
 
+---
+
+# Sorting & Searching AlGOrithms
+
+## Quicksort
+
+Unsorted array. 1 element is your pivot, look at the other element and put it on your left if its less than, right if its greater than.
+
+[Quicksort Algorithm Video](assets/quicksort.mov)
+
+![quicksort](assets/quicksort1.jpeg)
+![quicksort2](assets/quicksort.jpeg)
+
+
+## Binary Search
+
+[Binary Search Video](assets/binarysearch.mov)
+
+---
+
+# Information Displays
+
+## SVG Go
+
+Creates SVGs to IO writers
+
+https://ajstarks.org:1958
+
+
+![quicksort2](assets/svggo.jpeg)
+**Turning Data into a picture**
